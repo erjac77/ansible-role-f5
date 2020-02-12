@@ -1,0 +1,12 @@
+---
+partition:
+  name: Test
+
+user:
+  name: user1
+  description: User 1
+  partition_access:
+    - name: "{{ partition.name }}"
+      role: operator
+    - name: Common
+      role: guest

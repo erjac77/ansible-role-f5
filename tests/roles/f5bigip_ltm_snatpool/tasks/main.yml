@@ -1,0 +1,87 @@
+---
+
+- name: Create LTM Snatpool
+  f5bigip_ltm_snatpool:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snatpool_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ snatpool_description }}"
+    members: "{{ snatpool_members }}"
+    state: present
+  register: result
+
+- name: Assert Create LTM Snatpool
+  assert:
+    that:
+      - result is changed
+
+- name: Create LTM Snatpool (idempotent)
+  f5bigip_ltm_snatpool:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snatpool_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ snatpool_description }}"
+    members: "{{ snatpool_members }}"
+    state: present
+  register: result
+
+- name: Assert Create LTM Snatpool (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Modify LTM Snatpool description and members
+  f5bigip_ltm_snatpool:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snatpool_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ snatpool_description }}"
+    members: "{{ snatpool_new_members }}"
+    state: present
+  register: result
+
+- name: Assert Modify LTM Snatpool description and members
+  assert:
+    that:
+      - result is changed
+
+- name: Delete LTM Snatpool
+  f5bigip_ltm_snatpool:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snatpool_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete LTM Snatpool
+  assert:
+    that:
+      - result is changed
+
+- name: Delete LTM Snatpool (idempotent)
+  f5bigip_ltm_snatpool:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snatpool_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete LTM Snatpool (idempotent)
+  assert:
+    that:
+      - not result is changed

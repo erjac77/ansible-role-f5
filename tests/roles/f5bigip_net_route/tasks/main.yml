@@ -1,0 +1,105 @@
+---
+
+- name: Create NET Route
+  f5bigip_net_route:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ route_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ route_description }}"
+    network: "{{ route_network }}"
+    gw: "{{ route_gw }}"
+    state: present
+  register: result
+
+- name: Assert Create NET Route
+  assert:
+    that:
+      - result is changed
+
+- name: Create NET Route (idempotent)
+  f5bigip_net_route:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ route_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ route_description }}"
+    network: "{{ route_network }}"
+    gw: "{{ route_gw }}"
+    state: present
+  register: result
+
+- name: Assert Create NET Route (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Change NET Route description and gateway
+  f5bigip_net_route:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ route_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ route_description }}"
+    gw: "{{ route_new_gw }}"
+  register: result
+
+- name: Change NET Route description and gateway
+  assert:
+    that:
+      - result is changed
+
+- name: Change NET Route description and gateway (idempotent)
+  f5bigip_net_route:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ route_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ route_description }}"
+    gw: "{{ route_new_gw }}"
+  register: result
+
+- name: Change NET Route description and gateway (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete NET Route
+  f5bigip_net_route:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ route_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete NET Route
+  assert:
+    that:
+      - result is changed
+
+- name: Delete NET Route (idempotent)
+  f5bigip_net_route:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ route_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete NET Route (idempotent)
+  assert:
+    that:
+      - not result is changed

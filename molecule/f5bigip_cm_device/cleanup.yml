@@ -1,0 +1,44 @@
+---
+- name: Cleanup
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Reset CM Device Mirroring
+      f5bigip_cm_device:
+        provider: "{{ provider }}"
+        name: "{{ device_default.name }}"
+        mirror_ip: "{{ device_default.mirror_ip }}"
+        mirror_secondary_ip: "{{ device_default.mirror_secondary_ip }}"
+      delegate_to: localhost
+
+    - name: Reset CM Device Failover
+      f5bigip_cm_device:
+        provider: "{{ provider }}"
+        name: "{{ device_default.name }}"
+        multicast_interface: "{{ device_default.multicast_interface | default(omit) }}"
+        multicast_ip: "{{ device_default.multicast_ip | default(omit) }}"
+        multicast_port: "{{ device_default.multicast_port | default(omit) }}"
+        unicast_address: "{{ device_default.unicast_address | default(omit) }}"
+      delegate_to: localhost
+
+    - name: Reset CM Device ConfigSync
+      f5bigip_cm_device:
+        provider: "{{ provider }}"
+        name: "{{ device_default.name }}"
+        configsync_ip: "{{ device_default.configsync_ip }}"
+      delegate_to: localhost
+
+    - name: Reset CM Device Properties
+      f5bigip_cm_device:
+        provider: "{{ provider }}"
+        name: "{{ device_default.name }}"
+        comment: "{{ device_default.comment | default(omit) }}"
+        contact: "{{ device_default.contact | default(omit) }}"
+        description: "{{ device_default.description | default(omit) }}"
+        ha_capacity: "{{ device_default.ha_capacity | default(omit) }}"
+        location: "{{ device_default.location | default(omit) }}"
+      delegate_to: localhost

@@ -1,0 +1,4 @@
+ansible >= 2.8.0
+deepdiff >= 4.2.0
+f5-sdk >= 3.0.21
+requests >= 2.22.0

@@ -1,0 +1,4 @@
+---
+
+file_filepathname: "{{ role_path }}/files/test.dat"
+unix_path: /var/config/rest/downloads/test.dat

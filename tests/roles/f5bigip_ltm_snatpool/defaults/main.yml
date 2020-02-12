@@ -1,0 +1,9 @@
+---
+
+snatpool_name: my_snatpool
+snatpool_description: My snatpool
+snatpool_members:
+  - 10.10.10.251
+  - 10.10.10.252
+snatpool_new_members:
+  - 10.10.10.253

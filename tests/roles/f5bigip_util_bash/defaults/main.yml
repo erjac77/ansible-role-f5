@@ -1,0 +1,5 @@
+---
+
+bash_commands:
+  - { cmd_args: '-c "df -k"' }
+  - { cmd_args: '-c "echo hello"'}

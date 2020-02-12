@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM HTTPS Monitor
+  f5bigip_ltm_monitor_https:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_description }}"
+    send: "{{ monitor_send_string }}"
+    recv: "{{ monitor_recv_string }}"
+    state: present
+  register: result
+
+- name: Assert Create LTM HTTPS Monitor
+  assert:
+    that:
+      - result is changed
+
+- name: Create LTM HTTPS Monitor (idempotent)
+  f5bigip_ltm_monitor_https:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_description }}"
+    send: "{{ monitor_send_string }}"
+    recv: "{{ monitor_recv_string }}"
+    state: present
+  register: result
+
+- name: Assert Create LTM HTTPS Monitor (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Change LTM HTTPS Monitor description, interval and timeout
+  f5bigip_ltm_monitor_https:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_description }}"
+    interval: "{{ monitor_interval }}"
+    timeout: "{{ monitor_timeout }}"
+  register: result
+
+- name: Assert Change LTM HTTPS Monitor description, interval and timeout
+  assert:
+    that:
+      - result is changed
+
+- name: Change LTM HTTPS Monitor description, interval and timeout (idempotent)
+  f5bigip_ltm_monitor_https:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_description }}"
+    interval: "{{ monitor_interval }}"
+    timeout: "{{ monitor_timeout }}"
+  register: result
+
+- name: Assert Change LTM HTTPS Monitor description, interval and timeout (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete LTM HTTPS Monitor
+  f5bigip_ltm_monitor_https:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete LTM HTTPS Monitor
+  assert:
+    that:
+      - result is changed
+
+- name: Delete LTM HTTPS Monitor (idempotent)
+  f5bigip_ltm_monitor_https:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete LTM HTTPS Monitor (idempotent)
+  assert:
+    that:
+      - not result is changed

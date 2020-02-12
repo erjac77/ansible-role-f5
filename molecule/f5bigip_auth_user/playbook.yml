@@ -1,0 +1,17 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Create Auth User
+      f5bigip_auth_user:
+        provider: "{{ provider }}"
+        name: "{{ user.name }}"
+        description: "{{ user.description }}"
+        partition_access: "{{ user.partition_access }}"
+        state: present
+      delegate_to: localhost

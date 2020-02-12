@@ -1,0 +1,18 @@
+---
+
+- name: Get Shared bigip failover state
+  f5bigip_shared_bigip_failover_state:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+  register: result
+
+- name: Display Shared bigip failover state
+  debug:
+    msg: "Failover State: {{ result.failover_state }}"
+
+- name: Assert Shared bigip failover state
+  assert:
+    that:
+      - result.failover_state == 'active'

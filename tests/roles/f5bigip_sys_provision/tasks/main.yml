@@ -1,0 +1,64 @@
+---
+
+- name: Change SYS Provision level
+  f5bigip_sys_provision:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ provision_name }}"
+    level: "{{ provision_level }}"
+  register: result
+
+- name: Assert Change SYS Provision level
+  assert:
+    that:
+      - result is changed
+
+- name: Change SYS Provision level (idempotent)
+  f5bigip_sys_provision:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ provision_name }}"
+    level: "{{ provision_level }}"
+  register: result
+
+- name: Assert Change SYS Provision level (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Change SYS Provision level to default
+  f5bigip_sys_provision:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ provision_name }}"
+    level: "{{ provision_level_default }}"
+  register: result
+  until: result|succeeded
+  retries: 5
+  delay: 30
+
+- name: Assert Change SYS Provision level to default
+  assert:
+    that:
+      - result is changed
+
+- name: Change SYS Provision level to default (idempotent)
+  f5bigip_sys_provision:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ provision_name }}"
+    level: "{{ provision_level_default }}"
+  register: result
+
+- name: Assert Change SYS Provision level to default (idempotent)
+  assert:
+    that:
+      - not result is changed

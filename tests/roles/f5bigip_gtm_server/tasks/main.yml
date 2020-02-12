@@ -1,0 +1,166 @@
+---
+
+- name: Create GTM Datacenter
+  f5bigip_gtm_datacenter:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ datacenter_name }}"
+    state: present
+  register: result
+
+- name: Assert Create GTM Datacenter
+  assert:
+    that:
+      - result is changed
+
+- name: Create GTM Server
+  f5bigip_gtm_server:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ server_name }}"
+    addresses: "{{ server_addresses }}"
+    datacenter: "/Common/{{ datacenter_name }}"
+    description: "{{ server_description }}"
+    product: "{{ server_product }}"
+    state: present
+  register: result
+
+- name: Assert Create GTM Server
+  assert:
+    that:
+      - result is changed
+
+- name: Create GTM Server (idempotent)
+  f5bigip_gtm_server:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ server_name }}"
+    addresses: "{{ server_addresses }}"
+    datacenter: "/Common/{{ datacenter_name }}"
+    description: "{{ server_description }}"
+    state: present
+  register: result
+
+- name: Assert Create GTM Server (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Add GTM Server Virtual Servers
+  f5bigip_gtm_server_virtual_server:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}"
+    destination: "{{ item.destination }}"
+    server: "{{ server_name }}"
+    state: present
+  with_items: "{{ server_virtual_servers }}"
+  register: result
+
+- name: Assert Add GTM Server Virtual Servers
+  assert:
+    that:
+      - result is changed
+
+- name: Add GTM Server Virtual Servers (idempotent)
+  f5bigip_gtm_server_virtual_server:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}"
+    destination: "{{ item.destination }}"
+    server: "{{ server_name }}"
+    state: present
+  with_items: "{{ server_virtual_servers }}"
+  register: result
+
+- name: Assert Add GTM Server Virtual Servers (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Remove GTM Server Virtual Server
+  f5bigip_gtm_server_virtual_server:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ server_virtual_servers[0].name }}"
+    server: "{{ server_name }}"
+    state: absent
+  register: result
+
+- name: Assert Remove GTM Server Virtual Server
+  assert:
+    that:
+      - result is changed
+
+- name: Remove GTM Server Virtual Server (idempotent)
+  f5bigip_gtm_server_virtual_server:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ server_virtual_servers[0].name }}"
+    server: "{{ server_name }}"
+    state: absent
+  register: result
+
+- name: Assert Remove GTM Server Virtual Server (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete GTM Server
+  f5bigip_gtm_server:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ server_name }}"
+    state: absent
+  register: result
+
+- name: Assert Delete GTM Server
+  assert:
+    that:
+      - result is changed
+
+- name: Delete GTM Server (idempotent)
+  f5bigip_gtm_server:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ server_name }}"
+    state: absent
+  register: result
+
+- name: Assert Delete GTM Server (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete GTM Datacenter
+  f5bigip_gtm_datacenter:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ datacenter_name }}"
+    state: absent
+  register: result
+
+- name: Assert Delete GTM Datacenter
+  assert:
+    that:
+      - result is changed

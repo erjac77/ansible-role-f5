@@ -1,0 +1,99 @@
+---
+
+- name: Create LTM Profile MSSQL
+  f5bigip_ltm_profile_mssql:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_mssql_name }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  register: result
+
+- name: Assert Create LTM Profile MSSQL
+  assert:
+    that:
+      - result is changed
+
+- name: Create LTM Profile MSSQL (idempotent)
+  f5bigip_ltm_profile_mssql:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_mssql_name }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  register: result
+
+- name: Assert Create LTM Profile MSSQL (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Change LTM Profile MSSQL user-can-write-by-default
+  f5bigip_ltm_profile_mssql:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_mssql_name }}"
+    partition: "{{ bigip_partition }}"
+    user_can_write_by_default: "{{ profile_mssql_user_can_write_by_default }}"
+    state: present
+  register: result
+
+- name: Assert Change LTM Profile MSSQL user-can-write-by-default
+  assert:
+    that:
+      - result is changed
+
+- name: Change LTM Profile MSSQL user-can-write-by-default (idempotent)
+  f5bigip_ltm_profile_mssql:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_mssql_name }}"
+    partition: "{{ bigip_partition }}"
+    user_can_write_by_default: "{{ profile_mssql_user_can_write_by_default }}"
+    state: present
+  register: result
+
+- name: Assert Change LTM Profile MSSQL user-can-write-by-default (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete LTM Profile MSSQL
+  f5bigip_ltm_profile_mssql:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_mssql_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete LTM Profile MSSQL
+  assert:
+    that:
+      - result is changed
+
+- name: Delete LTM Profile MSSQL (idempotent)
+  f5bigip_ltm_profile_mssql:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_mssql_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete LTM Profile MSSQL (idempotent)
+  assert:
+    that:
+      - not result is changed

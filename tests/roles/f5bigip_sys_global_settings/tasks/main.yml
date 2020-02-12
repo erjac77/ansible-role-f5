@@ -1,0 +1,59 @@
+---
+
+- name: Change SYS Global Settings banner text
+  f5bigip_sys_global_settings:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    gui_security_banner: "{{ globset_gui_security_banner }}"
+    gui_security_banner_text: "{{ globset_gui_security_banner_text }}"
+  register: result
+
+- name: Assert Change SYS Global Settings banner text
+  assert:
+    that:
+      - result is changed
+
+- name: Change SYS Global Settings banner text (idempotent)
+  f5bigip_sys_global_settings:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    gui_security_banner: "{{ globset_gui_security_banner }}"
+    gui_security_banner_text: "{{ globset_gui_security_banner_text }}"
+  register: result
+
+- name: Assert Change SYS Global Settings banner text (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Change SYS Global Settings banner text to default
+  f5bigip_sys_global_settings:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    gui_security_banner_text: "{{ globset_gui_security_banner_text_default }}"
+  register: result
+
+- name: Assert Change SYS Global Settings banner text to default
+  assert:
+    that:
+      - result is changed
+
+- name: Change SYS Global Settings banner text to default (idempotent)
+  f5bigip_sys_global_settings:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    gui_security_banner_text: "{{ globset_gui_security_banner_text_default }}"
+  register: result
+
+- name: Assert Change SYS Global Settings banner text to default (idempotent)
+  assert:
+    that:
+      - not result is changed

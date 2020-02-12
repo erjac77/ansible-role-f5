@@ -1,0 +1,63 @@
+---
+
+- name: Create NET Route-Domain
+  f5bigip_net_route_domain:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ rd_name }}"
+    id: "{{ rd_id }}"
+    state: present
+  register: result
+
+- name: Assert Create NET Route-Domain
+  assert:
+    that:
+      - result is changed
+
+- name: Create NET Route-Domain (idempotent)
+  f5bigip_net_route_domain:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ rd_name }}"
+    id: "{{ rd_id }}"
+    state: present
+  register: result
+
+- name: Assert Create NET Route-Domain (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete NET Route-Domain
+  f5bigip_net_route_domain:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ rd_name }}"
+    state: absent
+  register: result
+
+- name: Assert Delete NET Route-Domain
+  assert:
+    that:
+      - result is changed
+
+- name: Delete NET Route-Domain (idempotent)
+  f5bigip_net_route_domain:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ rd_name }}"
+    state: absent
+  register: result
+
+- name: Assert Delete NET Route-Domain (idempotent)
+  assert:
+    that:
+      - not result is changed

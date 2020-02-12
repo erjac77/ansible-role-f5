@@ -1,0 +1,101 @@
+---
+
+- name: Create LTM SSL Persistence profile
+  f5bigip_ltm_persistence_ssl:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ persistence_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ persistence_description }}"
+    defaults_from: "{{ persistence_defaults_from }}"
+    state: present
+  register: result
+
+- name: Assert Create LTM SSL Persistence profile
+  assert:
+    that:
+      - result is changed
+
+- name: Create LTM SSL Persistence profile (idempotent)
+  f5bigip_ltm_persistence_ssl:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ persistence_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ persistence_description }}"
+    defaults_from: "{{ persistence_defaults_from }}"
+    state: present
+  register: result
+
+- name: Assert Create LTM SSL Persistence profile (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Change LTM SSL Persistence description
+  f5bigip_ltm_persistence_ssl:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ persistence_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ persistence_description }}"
+  register: result
+
+- name: Assert Change LTM SSL Persistence description
+  assert:
+    that:
+      - result is changed
+
+- name: Change LTM SSL Persistence description (idempotent)
+  f5bigip_ltm_persistence_ssl:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ persistence_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ persistence_description }}"
+  register: result
+
+- name: Assert Change LTM SSL Persistence description (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete LTM SSL Persistence profile
+  f5bigip_ltm_persistence_ssl:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ persistence_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete LTM SSL Persistence profile
+  assert:
+    that:
+      - result is changed
+
+- name: Delete LTM SSL Persistence profile (idempotent)
+  f5bigip_ltm_persistence_ssl:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ persistence_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete LTM SSL Persistence profile (idempotent)
+  assert:
+    that:
+      - not result is changed

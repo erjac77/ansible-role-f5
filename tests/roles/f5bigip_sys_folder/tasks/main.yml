@@ -1,0 +1,67 @@
+---
+
+- name: Create SYS Folder
+  f5bigip_sys_folder:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ folder_name }}"
+    description: "{{ folder_description }}"
+    sub_path: /
+    state: present
+  register: result
+
+- name: Assert Create SYS Folder
+  assert:
+    that:
+      - result is changed
+
+- name: Create SYS Folder (idempotent)
+  f5bigip_sys_folder:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ folder_name }}"
+    description: "{{ folder_description }}"
+    sub_path: /
+    state: present
+  register: result
+
+- name: Assert Create SYS Folder (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete SYS Folder
+  f5bigip_sys_folder:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ folder_name }}"
+    sub_path: /
+    state: absent
+  register: result
+
+- name: Delete SYS Folder
+  assert:
+    that:
+      - result is changed
+
+- name: Delete SYS Folder (idempotent)
+  f5bigip_sys_folder:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ folder_name }}"
+    sub_path: /
+    state: absent
+  register: result
+
+- name: Delete SYS Folder (idempotent)
+  assert:
+    that:
+      - not result is changed

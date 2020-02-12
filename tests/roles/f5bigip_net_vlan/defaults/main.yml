@@ -1,0 +1,8 @@
+---
+
+vlan_name: my_vlan
+vlan_description: My vlan
+vlan_tag: 1234
+
+vlan_interfaces:
+  - { name: 1.1, tagged: true, tag_mode: none }

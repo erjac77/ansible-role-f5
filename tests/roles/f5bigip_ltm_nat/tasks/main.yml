@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM NAT
+  f5bigip_ltm_nat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ nat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ nat_description }}"
+    originating_address: "{{ nat_originating_address }}"
+    translation_address: "{{ nat_translation_address }}"
+    vlans_enabled: "{{ nat_vlans_enabled }}"
+    vlans: "{{ nat_vlans }}"
+    state: present
+  register: result
+
+- name: Assert Create LTM NAT
+  assert:
+    that:
+      - result is changed
+
+- name: Create LTM NAT (idempotent)
+  f5bigip_ltm_nat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ nat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ nat_description }}"
+    originating_address: "{{ nat_originating_address }}"
+    translation_address: "{{ nat_translation_address }}"
+    vlans_enabled: "{{ nat_vlans_enabled }}"
+    vlans: "{{ nat_vlans }}"
+    state: present
+  register: result
+
+- name: Assert Create LTM NAT (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Change LTM NAT description and stp
+  f5bigip_ltm_nat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ nat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ nat_description }}"
+  register: result
+
+- name: Assert Change LTM NAT description
+  assert:
+    that:
+      - result is changed
+
+- name: Change LTM NAT description (idempotent)
+  f5bigip_ltm_nat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ nat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ nat_description }}"
+  register: result
+
+- name: Assert Change LTM NAT description (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete LTM NAT
+  f5bigip_ltm_nat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ nat_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete LTM NAT
+  assert:
+    that:
+      - result is changed
+
+- name: Delete LTM NAT (idempotent)
+  f5bigip_ltm_nat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ nat_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete LTM NAT (idempotent)
+  assert:
+    that:
+      - not result is changed

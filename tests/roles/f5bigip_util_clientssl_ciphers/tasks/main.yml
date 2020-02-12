@@ -1,0 +1,20 @@
+---
+
+- name: Run Client SSL Ciphers command
+  f5bigip_util_clientssl_ciphers:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    cipher_string: "{{ item.cipher_string }}"
+  with_items: "{{ clientssl_cipher_strings }}"
+  register: result
+
+- name: Display Client SSL Ciphers command output
+  debug: var=item.stdout_lines
+  with_items: "{{ result.results }}"
+
+- name: Assert Run Client SSL Ciphers command
+  assert:
+    that:
+      - result|succeeded

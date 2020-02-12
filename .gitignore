@@ -1,0 +1,10 @@
+### Ansible ###
+*.retry
+.vault_pass
+
+### PyCharm ###
+.idea/
+
+### VisualStudioCode ###
+.vscode/
+.history

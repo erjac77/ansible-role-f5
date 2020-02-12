@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - debug:
+        msg: "Testing roles with Molecule..."

@@ -1,0 +1,10 @@
+---
+
+### Add rule condition ###
+- name: Add LTM Policy Rule Condition {{ condition.name }}
+  include_tasks: add_rule_condition.yml
+
+- name: Add LTM Policy Rule Condition {{ condition.name }}
+  assert:
+    that:
+      - result is changed

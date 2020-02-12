@@ -1,0 +1,59 @@
+---
+
+- name: Set SYS NTP Servers and Timezone
+  f5bigip_sys_ntp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    servers: "{{ ntp_servers }}"
+    timezone: "{{ ntp_timezone }}"
+  register: result
+
+- name: Assert Set SYS NTP Servers and Timezone
+  assert:
+    that:
+      - result is changed
+
+- name: Set SYS NTP Servers and Timezone (idempotent)
+  f5bigip_sys_ntp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    servers: "{{ ntp_servers }}"
+    timezone: "{{ ntp_timezone }}"
+  register: result
+
+- name: Assert Set SYS NTP Servers and Timezone (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Clear SYS NTP Servers
+  f5bigip_sys_ntp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    servers: []
+  register: result
+
+- name: Assert Clear SYS NTP Servers
+  assert:
+    that:
+      - result is changed
+
+- name: Clear SYS NTP Servers (idempotent)
+  f5bigip_sys_ntp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    servers: []
+  register: result
+
+- name: Assert Clear SYS NTP Servers (idempotent)
+  assert:
+    that:
+      - not result is changed

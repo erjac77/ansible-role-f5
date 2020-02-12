@@ -1,0 +1,30 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: delegated
+  options:
+    ansible_connection_options:
+      ansible_connection: local
+lint:
+  name: yamllint
+platforms:
+  - name: bigip1.localhost
+    groups:
+      - lab
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      vault_identity_list: ../.vault_pass
+  inventory:
+    links:
+      host_vars: ../inventory/host_vars
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
+    options:
+      max-line-length: 120

@@ -1,0 +1,44 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Configure CM Device Properties
+      f5bigip_cm_device:
+        provider: "{{ provider }}"
+        name: "{{ device.name }}"
+        comment: "{{ device.comment | default(omit) }}"
+        contact: "{{ device.contact | default(omit) }}"
+        description: "{{ device.description | default(omit) }}"
+        ha_capacity: "{{ device.ha_capacity | default(omit) }}"
+        location: "{{ device.location | default(omit) }}"
+      delegate_to: localhost
+
+    - name: Configure CM Device ConfigSync
+      f5bigip_cm_device:
+        provider: "{{ provider }}"
+        name: "{{ device.name }}"
+        configsync_ip: "{{ device.configsync_ip }}"
+      delegate_to: localhost
+
+    - name: Configure CM Device Failover
+      f5bigip_cm_device:
+        provider: "{{ provider }}"
+        name: "{{ device.name }}"
+        multicast_interface: "{{ device.multicast_interface | default(omit) }}"
+        multicast_ip: "{{ device.multicast_ip | default(omit) }}"
+        multicast_port: "{{ device.multicast_port | default(omit) }}"
+        unicast_address: "{{ device.unicast_address | default(omit) }}"
+      delegate_to: localhost
+
+    - name: Configure CM Device Mirroring
+      f5bigip_cm_device:
+        provider: "{{ provider }}"
+        name: "{{ device.name }}"
+        mirror_ip: "{{ device.mirror_ip }}"
+        mirror_secondary_ip: "{{ device.mirror_secondary_ip }}"
+      delegate_to: localhost

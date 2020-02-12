@@ -1,0 +1,15 @@
+---
+- name: Cleanup
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Delete Auth User
+      f5bigip_auth_user:
+        provider: "{{ provider }}"
+        name: "{{ user.name }}"
+        state: absent
+      delegate_to: localhost

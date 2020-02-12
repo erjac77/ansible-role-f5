@@ -1,0 +1,47 @@
+---
+
+- name: Modify SYS DB Key
+  f5bigip_sys_db:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ db_variable_name }}"
+    value: "{{ db_variable_new_value }}"
+  register: result
+
+- name: Assert Modify SYS DB Key
+  assert:
+    that:
+      - result is changed
+  ignore_errors: yes
+
+- name: Modify SYS DB Key (idempotent)
+  f5bigip_sys_db:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ db_variable_name }}"
+    value: "{{ db_variable_new_value }}"
+  register: result
+
+- name: Assert Modify SYS DB Key (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Reset SYS DB Key
+  f5bigip_sys_db:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ db_variable_name }}"
+    value: "{{ db_variable_old_value }}"
+  register: result
+
+- name: Assert Reset SYS DB Key
+  assert:
+    that:
+      - result is changed

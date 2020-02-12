@@ -1,0 +1,18 @@
+---
+
+- name: Get Shared Licensing status
+  f5bigip_shared_licensing:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+  register: result
+
+- name: Display Shared Licensing status
+  debug:
+    msg: "Licensing Status: {{ result.status }}"
+
+- name: Assert Shared Licensing status
+  assert:
+    that:
+      - result.status == 'LICENSING_NO_DATA'

@@ -1,0 +1,105 @@
+---
+
+- name: Create NET ARP
+  f5bigip_net_arp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ arp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ arp_description }}"
+    ip_address: "{{ arp_ip_address }}"
+    mac_address: "{{ arp_mac_address }}"
+    state: present
+  register: result
+
+- name: Assert Create NET ARP
+  assert:
+    that:
+      - result is changed
+
+- name: Create NET ARP (idempotent)
+  f5bigip_net_arp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ arp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{arp_description }}"
+    ip_address: "{{ arp_ip_address }}"
+    mac_address: "{{ arp_mac_address }}"
+    state: present
+  register: result
+
+- name: Assert Create NET ARP (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Change NET ARP description and mac address
+  f5bigip_net_arp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ arp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ arp_description }}"
+    mac_address: "{{ arp_mac_address_new }}"
+  register: result
+
+- name: Assert Change NET ARP description and mac address
+  assert:
+    that:
+      - result is changed
+
+- name: Change NET ARP description and mac address (idempotent)
+  f5bigip_net_arp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ arp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ arp_description }}"
+    mac_address: "{{ arp_mac_address_new }}"
+  register: result
+
+- name: Assert Change NET ARP description and mac address (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete NET ARP
+  f5bigip_net_arp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ arp_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete NET ARP
+  assert:
+    that:
+      - result is changed
+
+- name: Delete NET ARP (idempotent)
+  f5bigip_net_arp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ arp_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete NET ARP (idempotent)
+  assert:
+    that:
+      - not result is changed

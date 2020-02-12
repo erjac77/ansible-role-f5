@@ -1,0 +1,15 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Delete Auth Partition
+      f5bigip_auth_partition:
+        provider: "{{ provider }}"
+        name: "{{ partition.name }}"
+        state: absent
+      delegate_to: localhost

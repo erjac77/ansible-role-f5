@@ -1,0 +1,277 @@
+---
+
+- name: Upload SYS Crypto Key
+  f5bigip_shared_file_transfer_upload:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    filepathname: "{{ key_filepathname }}"
+  register: result
+
+- name: Upload SYS Crypto Key
+  assert:
+    that:
+      - result is changed
+
+- name: Install SYS Crypto Key from local file
+  f5bigip_sys_crypto_key:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ key_name }}"
+    partition: "{{ bigip_partition }}"
+    command: install
+    from_local_file: "{{ key_path }}"
+    state: present
+  register: result
+
+- name: Assert Install SYS Crypto Key from local file
+  assert:
+    that:
+      - result is changed
+
+- name: Install SYS Crypto Key from local file (idempotent)
+  f5bigip_sys_crypto_key:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ key_name }}"
+    partition: "{{ bigip_partition }}"
+    command: install
+    from_local_file: "{{ key_path }}"
+    state: present
+  register: result
+
+- name: Assert Install SYS Crypto Key from local file (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete SYS Crypto Key
+  f5bigip_sys_crypto_key:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ key_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete SYS Crypto Key
+  assert:
+    that:
+      - result is changed
+
+- name: Create SYS Crypto Key
+  f5bigip_sys_crypto_key:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ key_name }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  register: result
+
+- name: Assert Create SYS Crypto Key
+  assert:
+    that:
+      - result is changed
+
+- name: Create SYS Crypto Key (idempotent)
+  f5bigip_sys_crypto_key:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ key_name }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  register: result
+
+- name: Assert Create SYS Crypto Key (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Upload SYS Crypto Cert
+  f5bigip_shared_file_transfer_upload:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    filepathname: "{{ cert_filepathname }}"
+  register: result
+
+- name: Upload SYS Crypto Cert
+  assert:
+    that:
+      - result is changed
+
+- name: Install SYS Crypto Cert from local file
+  f5bigip_sys_crypto_cert:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ cert_name }}"
+    partition: "{{ bigip_partition }}"
+    command: install
+    from_local_file: "{{ cert_path }}"
+    state: present
+  register: result
+
+- name: Assert Install SYS Crypto Cert from local file
+  assert:
+    that:
+      - result is changed
+
+- name: Install SYS Crypto Cert from local file (idempotent)
+  f5bigip_sys_crypto_cert:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ cert_name }}"
+    partition: "{{ bigip_partition }}"
+    command: install
+    from_local_file: "{{ cert_path }}"
+    state: present
+  register: result
+
+- name: Assert Install SYS Crypto Cert from local file (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete SYS Crypto Cert
+  f5bigip_sys_crypto_cert:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ cert_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete SYS Crypto Cert
+  assert:
+    that:
+      - result is changed
+
+- name: Create SYS Crypto Cert
+  f5bigip_sys_crypto_cert:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ cert_name }}"
+    partition: "{{ bigip_partition }}"
+    key: "{{ key_name }}"
+    common_name: "{{ common_name }}"
+    city: "{{ city }}"
+    state_province: "{{ state }}"
+    country: "{{ country }}"
+    email_address: "{{ email }}"
+    organization: "{{ org }}"
+    ou: "{{ ou }}"
+    state: present
+  register: result
+
+- name: Assert Create SYS Crypto Cert
+  assert:
+    that:
+      - result is changed
+
+- name: Create SYS Crypto Cert (idempotent)
+  f5bigip_sys_crypto_cert:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ cert_name }}"
+    partition: "{{ bigip_partition }}"
+    key: "{{ key_name }}"
+    common_name: "{{ common_name }}"
+    city: "{{ city }}"
+    state_province: "{{ state }}"
+    country: "{{ country }}"
+    email_address: "{{ email }}"
+    organization: "{{ org }}"
+    ou: "{{ ou }}"
+    state: present
+  register: result
+
+- name: Assert Create SYS Crypto Cert (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete SYS Crypto Cert
+  f5bigip_sys_crypto_cert:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ cert_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete SYS Crypto Cert
+  assert:
+    that:
+      - result is changed
+
+- name: Delete SYS Crypto Cert (idempotent)
+  f5bigip_sys_crypto_cert:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ cert_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete SYS Crypto Cert (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete SYS Crypto Key
+  f5bigip_sys_crypto_key:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ key_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete SYS Crypto Key
+  assert:
+    that:
+      - result is changed
+
+- name: Delete SYS Crypto Key (idempotent)
+  f5bigip_sys_crypto_key:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ key_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete SYS Crypto Key (idempotent)
+  assert:
+    that:
+      - not result is changed

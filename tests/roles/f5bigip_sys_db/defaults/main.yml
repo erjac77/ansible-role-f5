@@ -1,0 +1,5 @@
+---
+
+db_variable_name: 'connection.syncookies.algorithm'
+db_variable_old_value: 'hardware'
+db_variable_new_value: 'software'

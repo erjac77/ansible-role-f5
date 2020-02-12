@@ -1,0 +1,34 @@
+---
+device:
+  name: "{{ device_name }}"
+  comment: My lab device
+  configsync_ip: "{{ device_internal_ip }}"
+  contact: admin@localhost
+  description: My device
+  ha_capacity: 10
+  location: Central Office
+  mirror_ip: "{{ device_internal_ip }}"
+  mirror_secondary_ip: "{{ device_external_ip }}"
+  multicast_interface: eth0
+  multicast_ip: 224.0.0.245
+  multicast_port: 62960
+  unicast_address:
+    - ip: "{{ device_internal_ip }}"
+      effectiveIp: "{{ device_internal_ip }}"
+      port: 1026
+      effectivePort: 1026
+
+device_default:
+  name: "{{ device_name }}"
+  comment: ""
+  configsync_ip: none
+  contact: ""
+  description: ""
+  ha_capacity: 0
+  location: ""
+  mirror_ip: any6
+  mirror_secondary_ip: any6
+  multicast_interface: none
+  multicast_ip: any
+  multicast_port: 0
+  unicast_address: []

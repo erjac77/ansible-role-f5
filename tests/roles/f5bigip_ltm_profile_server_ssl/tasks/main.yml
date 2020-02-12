@@ -1,0 +1,103 @@
+---
+
+- name: Create LTM Server SSL profile
+  f5bigip_ltm_profile_server_ssl:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_description }}"
+    ciphers: "{{ profile_ciphers }}"
+    tm_options: "{{ profile_options }}"
+    state: present
+  register: result
+
+- name: Assert Create LTM Server SSL profile
+  assert:
+    that:
+      - result is changed
+
+- name: Create LTM Server SSL profile (idempotent)
+  f5bigip_ltm_profile_server_ssl:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_description }}"
+    ciphers: "{{ profile_ciphers }}"
+    tm_options: "{{ profile_options }}"
+    state: present
+  register: result
+
+- name: Assert Create LTM Server SSL profile (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Change LTM Server SSL profile description
+  f5bigip_ltm_profile_server_ssl:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_description }}"
+  register: result
+
+- name: Assert Change LTM Server SSL profile description
+  assert:
+    that:
+      - result is changed
+
+- name: Change LTM Server SSL profile description (idempotents)
+  f5bigip_ltm_profile_server_ssl:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_description }}"
+  register: result
+
+- name: Assert Change LTM Server SSL profile description (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Delete LTM Server SSL profile
+  f5bigip_ltm_profile_server_ssl:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete LTM Server SSL profile
+  assert:
+    that:
+      - result is changed
+
+- name: Delete LTM Server SSL profile (idempotent)
+  f5bigip_ltm_profile_server_ssl:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete LTM Server SSL profile (idempotent)
+  assert:
+    that:
+      - not result is changed

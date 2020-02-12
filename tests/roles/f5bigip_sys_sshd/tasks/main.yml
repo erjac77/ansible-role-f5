@@ -1,0 +1,105 @@
+---
+
+- name: Set SYS SSHD allow clients
+  f5bigip_sys_sshd:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    allow: "{{ sshd_allow_clients }}"
+  register: result
+
+- name: Assert Add SYS SSHD allow clients
+  assert:
+    that:
+      - result is changed
+
+- name: Add SYS SSHD allow clients (idempotent)
+  f5bigip_sys_sshd:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    allow: "{{ sshd_allow_clients }}"
+  register: result
+
+- name: Assert Add SYS SSHD allow clients (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Change SYS SSHD banner and inactivity timeout
+  f5bigip_sys_sshd:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    banner: "{{ sshd_banner }}"
+    banner_text: "{{ sshd_banner_text }}"
+    inactivity_timeout: "{{ sshd_inactivity_timeout }}"
+  register: result
+
+- name: Assert Change SYS SSHD banner and inactivity timeout
+  assert:
+    that:
+      - result is changed
+
+- name: Change SYS SSHD banner and inactivity timeout (idempotent)
+  f5bigip_sys_sshd:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    banner: "{{ sshd_banner }}"
+    banner_text: "{{ sshd_banner_text }}"
+    inactivity_timeout: "{{ sshd_inactivity_timeout }}"
+  register: result
+
+- name: Assert Change SYS SSHD banner and inactivity timeout (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Reset SYS SSHD allow clients
+  f5bigip_sys_sshd:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    allow: "{{ sshd_allow_clients_default }}"
+  register: result
+
+- name: Assert Clear SYS SSHD allow clients
+  assert:
+    that:
+      - result is changed
+
+- name: Reset SYS SSHD allow clients (idempotent)
+  f5bigip_sys_sshd:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    allow: "{{ sshd_allow_clients_default }}"
+  register: result
+
+- name: Assert Clear SYS SSHD allow clients (idempotent)
+  assert:
+    that:
+      - not result is changed
+
+- name: Disable SYS SSHD banner and inactivity timeout
+  f5bigip_sys_sshd:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    banner: "disabled"
+    banner_text: ""
+    inactivity_timeout: 0
+  register: result
+
+- name: Assert Disable SYS SSHD banner and inactivity timeout
+  assert:
+    that:
+      - result is changed

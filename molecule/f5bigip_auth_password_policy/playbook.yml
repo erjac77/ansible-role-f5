@@ -1,0 +1,24 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Change Auth Password Policy
+      f5bigip_auth_password_policy:
+        provider: "{{ provider }}"
+        expiration_warning: "{{ password_policy.expiration_warning | default(omit) }}"
+        max_duration: "{{ password_policy.max_duration | default(omit) }}"
+        max_login_failures: "{{ password_policy.max_login_failures | default(omit) }}"
+        min_duration: "{{ password_policy.min_duration | default(omit) }}"
+        minimum_length: "{{ password_policy.minimum_length | default(omit) }}"
+        password_memory: "{{ password_policy.password_memory | default(omit) }}"
+        policy_enforcement: "{{ password_policy.policy_enforcement | default(omit) }}"
+        required_lowercase: "{{ password_policy.required_lowercase | default(omit) }}"
+        required_numeric: "{{ password_policy.required_numeric | default(omit) }}"
+        required_special: "{{ password_policy.required_special | default(omit) }}"
+        required_uppercase: "{{ password_policy.required_uppercase | default(omit) }}"
+      delegate_to: localhost

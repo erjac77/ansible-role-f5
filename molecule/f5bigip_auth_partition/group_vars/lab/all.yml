@@ -1,0 +1,4 @@
+---
+partition:
+  name: my_partition
+  description: My partition

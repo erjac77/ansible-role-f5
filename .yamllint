@@ -1,0 +1,15 @@
+---
+extends: default
+
+rules:
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+    level: warning
+  brackets:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+    level: warning
+  line-length:
+    max: 120
+    level: warning

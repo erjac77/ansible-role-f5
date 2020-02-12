@@ -1,0 +1,24 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Reset Password Policy
+      f5bigip_auth_password_policy:
+        provider: "{{ provider }}"
+        expiration_warning: "{{ password_policy_default.expiration_warning }}"
+        max_duration: "{{ password_policy_default.max_duration }}"
+        max_login_failures: "{{ password_policy_default.max_login_failures }}"
+        min_duration: "{{ password_policy_default.min_duration }}"
+        minimum_length: "{{ password_policy_default.minimum_length }}"
+        password_memory: "{{ password_policy_default.password_memory }}"
+        policy_enforcement: "{{ password_policy_default.policy_enforcement }}"
+        required_lowercase: "{{ password_policy_default.required_lowercase }}"
+        required_numeric: "{{ password_policy_default.required_numeric }}"
+        required_special: "{{ password_policy_default.required_special }}"
+        required_uppercase: "{{ password_policy_default.required_uppercase }}"
+      delegate_to: localhost

@@ -1,0 +1,10 @@
+---
+
+pool_name: my_pool
+pool_partition: "{{ bigip_partition }}"
+pool_description: My pool
+pool_load_balancing_mode: least-connections-member
+pool_members:
+  - { name: my_member_0, partition: Common, address: 10.10.10.100, port: 80, description: My member 0, ratio: 1 }
+  - { name: my_member_1, partition: "{{ bigip_partition }}", address: 10.10.10.101, port: 80, description: My member 1, ratio: 2 }
+  - { name: my_member_2, partition: "{{ bigip_partition }}", address: 10.10.10.102, port: 80, description: My member 2, ratio: 1 }

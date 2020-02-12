@@ -1,0 +1,127 @@
+---
+
+- name: Save the running configuration
+  f5bigip_sys_config:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    command: save
+  register: result
+
+- name: Assert Save the running configuration
+  assert:
+    that:
+      - result is changed
+
+- name: Save the configuration to a SCF file
+  f5bigip_sys_config:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    command: save
+    options:
+      - { "file": "{{ scf_filename }}" }
+      - { "no-passphrase": true }
+  register: result
+
+- name: Assert Save the configuration to a SCF file
+  assert:
+    that:
+      - result is changed
+
+- name: Move the SCF file to madm folder
+  f5bigip_util_unix_mv:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    file_name: "{{ scf_filename }}"
+    source_path: "{{ scf_files_path }}"
+    dest_path: "{{ rest_madm_path }}"
+  register: result
+
+- name: Assert Move the SCF file to madm folder
+  assert:
+    that:
+      - result is changed
+
+- name: Download the SCF file
+  f5bigip_shared_file_transfer_madm:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    file_name: "{{ scf_filename }}"
+    download_path: "{{ files_path }}/{{ scf_filename }}"
+  register: result
+
+- name: Assert Download the SCF file
+  assert:
+    that:
+      - result is changed
+
+- name: Upload the config files (nodes)
+  f5bigip_shared_file_transfer_upload:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    filepathname: "{{ files_path }}/{{ config_filename }}"
+  register: result
+
+- name: Assert Upload the config files (nodes)
+  assert:
+    that:
+      - result is changed
+
+- name: Move the config files (nodes)
+  f5bigip_util_unix_mv:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    file_name: "{{ config_filename }}"
+    source_path: "{{ rest_downloads_path }}"
+    dest_path: "{{ scf_files_path }}"
+  register: result
+
+- name: Assert Move the config files (nodes)
+  assert:
+    that:
+      - result is changed
+
+- name: Load and merge the specified configuration (nodes)
+  f5bigip_sys_config:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    command: load
+    merge: yes
+    file: "{{ config_filename }}"
+  register: result
+
+- name: Assert Load and merge the specified configuration (nodes)
+  assert:
+    that:
+      - result is changed
+
+- name: Delete loaded nodes
+  f5bigip_ltm_node:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - my_loaded_node1
+    - my_loaded_node2
+  register: result
+
+- name: Assert Delete loaded nodes
+  assert:
+    that:
+      - result is changed
