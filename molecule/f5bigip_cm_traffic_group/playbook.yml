@@ -1,0 +1,16 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Create CM Traffic Group
+      f5bigip_cm_traffic_group:
+        provider: "{{ provider }}"
+        name: "{{ traffic_group.name }}"
+        description: "{{ traffic_group.description | default(omit) }}"
+        state: present
+      delegate_to: localhost

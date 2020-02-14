@@ -11,7 +11,7 @@
       f5bigip_auth_user:
         provider: "{{ provider }}"
         name: "{{ user.name }}"
-        description: "{{ user.description }}"
-        partition_access: "{{ user.partition_access }}"
+        description: "{{ user.description | default(omit) }}"
+        partition_access: "{{ user.partition_access | default(omit) }}"
         state: present
       delegate_to: localhost

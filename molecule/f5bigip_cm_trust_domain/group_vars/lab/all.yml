@@ -1,0 +1,9 @@
+---
+trust_domain:
+  name: Root
+  ca_devices:
+    - "/Common/{{ device_name }}"
+
+trust_domain_default:
+  name: Root
+  ca_devices: []

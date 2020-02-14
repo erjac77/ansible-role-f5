@@ -1,0 +1,25 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Remove CM Device Group members
+      f5bigip_cm_device_group_device:
+        provider: "{{ provider }}"
+        name: "{{ item }}"
+        device_group: "{{ device_group.name }}"
+        state: absent
+      loop: "{{ device_group.devices }}"
+      delegate_to: localhost
+      ignore_errors: true
+
+    - name: Delete CM Device Group
+      f5bigip_cm_device_group:
+        provider: "{{ provider }}"
+        name: "{{ device_group.name }}"
+        state: absent
+      delegate_to: localhost

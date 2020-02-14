@@ -1,0 +1,19 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Create CM Device Group
+      f5bigip_cm_device_group:
+        provider: "{{ provider }}"
+        name: "{{ device_group.name }}"
+        description: "{{ device_group.description | default(omit) }}"
+        devices: "{{ device_group.devices | default(omit) }}"
+        network_failover: "{{ device_group.network_failover | default(omit) }}"
+        type: "{{ device_group.type | default(omit) }}"
+        state: present
+      delegate_to: localhost

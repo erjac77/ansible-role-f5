@@ -1,0 +1,44 @@
+---
+- name: Create
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Create Auth Partition
+      f5bigip_auth_partition:
+        provider: "{{ provider }}"
+        name: "{{ partition.name }}"
+        state: present
+      delegate_to: localhost
+
+    - name: Create LTM Nodes
+      f5bigip_ltm_node:
+        provider: "{{ provider }}"
+        name: "{{ item.name }}"
+        partition: "{{ partition.name }}"
+        address: "{{ item.address }}"
+        state: present
+      delegate_to: localhost
+      loop: "{{ nodes }}"
+
+    - name: Create LTM Pools
+      f5bigip_ltm_pool:
+        provider: "{{ provider }}"
+        name: "{{ item.name }}"
+        partition: "{{ partition.name }}"
+        state: present
+      delegate_to: localhost
+      loop: "{{ pools }}"
+
+    - name: Add LTM Pools Members
+      f5bigip_ltm_pool_member:
+        provider: "{{ provider }}"
+        name: "{{ item.name }}:80"
+        partition: "{{ partition.name }}"
+        pool: "/{{ partition.name }}/{{ pools[0].name }}"
+        state: present
+      delegate_to: localhost
+      loop: "{{ nodes }}"

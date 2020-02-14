@@ -1,0 +1,4 @@
+---
+traffic_group:
+  name: my_traffic_group
+  description: My traffic group

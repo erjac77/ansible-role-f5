@@ -1,0 +1,16 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Remove self device to CM Trust Domain
+      f5bigip_cm_trust_domain:
+        provider: "{{ provider }}"
+        name: "{{ trust_domain_default.name }}"
+        ca_devices: "{{ trust_domain_default.ca_devices | default(omit) }}"
+        state: present
+      delegate_to: localhost

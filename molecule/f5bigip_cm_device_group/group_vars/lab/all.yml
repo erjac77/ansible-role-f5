@@ -1,0 +1,8 @@
+---
+device_group:
+  name: my_device_group
+  description: My device group
+  network_failover: enabled
+  type: sync-failover
+  devices:
+    - "{{ device_name }}"

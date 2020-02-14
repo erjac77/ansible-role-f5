@@ -130,15 +130,15 @@ def get_facts(uri, **params):
 
     resp = open_url(
         "https://"
-        + params["f5_hostname"]
+        + params["provider"]["server"]
         + ":"
-        + str(params["f5_port"])
+        + str(params["provider"]["server_port"])
         + uri
         + req_params,
         method="GET",
-        url_username=params["f5_username"],
-        url_password=params["f5_password"],
-        validate_certs=params["f5_verify"],
+        url_username=params["provider"]["user"],
+        url_password=params["provider"]["password"],
+        validate_certs=params["provider"]["validate_certs"],
     )
 
     return json.loads(resp.read())

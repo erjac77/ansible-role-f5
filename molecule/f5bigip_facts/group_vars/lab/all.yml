@@ -1,0 +1,22 @@
+---
+partition:
+  name: my_partition
+
+nodes:
+  - { name: my_node1, address: 10.1.1.1 }
+  - { name: my_node2, address: 10.2.2.2 }
+  - { name: my_node3, address: 10.3.3.3 }
+
+pools:
+  - { name: my_pool1 }
+  - { name: my_pool2 }
+  - { name: my_pool3 }
+
+facts:
+  objects:
+    - { module: ltm, component: node }
+    - { module: ltm, component: pool }
+  filter: "partition eq {{ partition.name }}"
+  select: name,partition
+  skip: 1
+  top: 1

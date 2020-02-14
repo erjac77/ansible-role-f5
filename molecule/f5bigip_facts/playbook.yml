@@ -1,0 +1,66 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Gather BIG-IP facts
+      f5bigip_facts:
+        provider: "{{ provider }}"
+        module: "{{ item.module }}"
+        component: "{{ item.component }}"
+        filter: "{{ facts.filter }}"
+      delegate_to: localhost
+      loop: "{{ facts.objects }}"
+
+    - name: Assert Gather BIG-IP facts
+      assert:
+        that:
+          # yamllint disable-line rule:line-length
+          - "'my_node1' in tm_ltm_node['items']|map(attribute='name') and 'my_node3' in tm_ltm_node['items']|map(attribute='name')"
+          # yamllint disable-line rule:line-length
+          - "'my_pool1' in tm_ltm_pool['items']|map(attribute='name') and 'my_pool3' in tm_ltm_pool['items']|map(attribute='name')"
+
+    - name: Gather BIG-IP facts with expanded subcollections
+      f5bigip_facts:
+        provider: "{{ provider }}"
+        module: "{{ item.module }}"
+        component: "{{ item.component }}"
+        expand_subcollections: true
+        filter: "{{ facts.filter }}"
+      delegate_to: localhost
+      loop: "{{ facts.objects }}"
+
+    - name: Assert Gather BIG-IP facts with expanded subcollections
+      assert:
+        that:
+          # yamllint disable-line rule:line-length
+          - "'my_node1' in tm_ltm_node['items']|map(attribute='name') and 'my_node3' in tm_ltm_node['items']|map(attribute='name')"
+          # yamllint disable-line rule:line-length
+          - "'my_pool1' in tm_ltm_pool['items']|map(attribute='name') and 'my_pool3' in tm_ltm_pool['items']|map(attribute='name')"
+          - "'items' in tm_ltm_pool['items'][0]['membersReference']"
+
+    - name: Gather filtered BIG-IP facts
+      f5bigip_facts:
+        provider: "{{ provider }}"
+        module: "{{ item.module }}"
+        component: "{{ item.component }}"
+        filter: "{{ facts.filter }}"
+        select: "{{ facts.select }}"
+        skip: "{{ facts.skip }}"
+        top: "{{ facts.top }}"
+      delegate_to: localhost
+      loop: "{{ facts.objects }}"
+
+    - name: Assert Gather filtered BIG-IP facts
+      assert:
+        that:
+          # yamllint disable-line rule:line-length
+          - "'my_node2' in tm_ltm_node['items']|map(attribute='name') and 'my_pool2' in tm_ltm_pool['items']|map(attribute='name')"
+          # yamllint disable-line rule:line-length
+          - "'my_node1' not in tm_ltm_node['items']|map(attribute='name') and 'my_node3' not in tm_ltm_node['items']|map(attribute='name')"
+          # yamllint disable-line rule:line-length
+          - "'my_pool1' not in tm_ltm_pool['items']|map(attribute='name') and 'my_pool3' not in tm_ltm_pool['items']|map(attribute='name')"

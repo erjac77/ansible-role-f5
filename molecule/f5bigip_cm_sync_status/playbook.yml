@@ -1,0 +1,25 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Get CM sync status of the device
+      f5bigip_cm_sync_status:
+        provider: "{{ provider }}"
+      register: result
+      delegate_to: localhost
+
+    - name: Display the sync status of the device
+      debug:
+        msg: "Sync Status: {{ result.status }}"
+      when: result.status is defined
+
+    - name: Assert Get CM sync status of the device
+      assert:
+        that:
+          - result.status == 'Standalone'
+      when: result.status is defined
