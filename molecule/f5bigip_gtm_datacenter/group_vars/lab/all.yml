@@ -1,0 +1,6 @@
+---
+datacenter:
+  name: my_datacenter
+  contact: admin@localhost
+  description: My datacenter
+  location: Somewhere

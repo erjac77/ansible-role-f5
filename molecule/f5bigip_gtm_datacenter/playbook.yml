@@ -1,0 +1,18 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Create GTM Datacenter
+      f5bigip_gtm_datacenter:
+        provider: "{{ provider }}"
+        name: "{{ datacenter.name }}"
+        description: "{{ datacenter.description | default(omit) }}"
+        contact: "{{ datacenter.contact | default(omit) }}"
+        location: "{{ datacenter.location | default(omit) }}"
+        state: present
+      delegate_to: localhost

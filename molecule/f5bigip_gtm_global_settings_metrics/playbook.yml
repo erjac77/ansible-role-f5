@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Change GTM Global Settings Metrics default probe limit
+      f5bigip_gtm_global_settings_metrics:
+        provider: "{{ provider }}"
+        default_probe_limit: "{{ global_settings_metrics.default_probe_limit | default(omit) }}"
+      delegate_to: localhost

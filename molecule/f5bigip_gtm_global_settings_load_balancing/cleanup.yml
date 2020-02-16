@@ -1,0 +1,14 @@
+---
+- name: Cleanup
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Reset GTM Global Load-Balancing Settings ignore path TTL
+      f5bigip_gtm_global_settings_load_balancing:
+        provider: "{{ provider }}"
+        ignore_path_ttl: "{{ global_settings_load_balancing_default.ignore_path_ttl | default(omit) }}"
+      delegate_to: localhost

@@ -7,9 +7,10 @@
     - erjac77.f5
 
   tasks:
-    - name: Delete Auth Partition
-      f5bigip_auth_partition:
+    - name: Delete GTM Listener
+      f5bigip_gtm_listener:
         provider: "{{ provider }}"
-        name: "{{ partition.name }}"
+        name: "{{ listener.name }}"
+        partition: "{{ listener.partition | default('Common') }}"
         state: absent
       delegate_to: localhost

@@ -1,0 +1,12 @@
+---
+listener:
+  name: my_listener
+  partition: Common
+  description: My listener
+  address: 10.10.1.1
+  persist:
+    - { name: dest_addr, partition: Common, tmDefault: "yes" }
+  source_address_translation:
+    type: automap
+  profiles:
+    - { name: dns, partition: Common, context: all }

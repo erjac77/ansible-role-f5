@@ -1,0 +1,6 @@
+---
+global_settings_load_balancing:
+  ignore_path_ttl: "yes"
+
+global_settings_load_balancing_default:
+  ignore_path_ttl: "no"

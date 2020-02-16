@@ -1,0 +1,21 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Create GTM Listener
+      f5bigip_gtm_listener:
+        provider: "{{ provider }}"
+        name: "{{ listener.name }}"
+        partition: "{{ listener.partition | default('Common') }}"
+        description: "{{ listener.description | default(omit) }}"
+        address: "{{ listener.address }}"
+        persist: "{{ listener.persist }}"
+        profiles: "/{{ listener.profiles[0].partition }}/{{ listener.profiles[0].name }}"
+        source_address_translation: "{{ listener.source_address_translation }}"
+        state: present
+      delegate_to: localhost

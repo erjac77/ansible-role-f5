@@ -7,9 +7,9 @@
     - erjac77.f5
 
   tasks:
-    - name: Delete Auth Partition
-      f5bigip_auth_partition:
+    - name: Delete GTM Datacenter
+      f5bigip_gtm_datacenter:
         provider: "{{ provider }}"
-        name: "{{ partition.name }}"
+        name: "{{ datacenter.name }}"
         state: absent
       delegate_to: localhost

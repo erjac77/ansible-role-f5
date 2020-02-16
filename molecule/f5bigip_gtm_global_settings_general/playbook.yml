@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Change GTM Global General Settings heartbeat interval
+      f5bigip_gtm_global_settings_general:
+        provider: "{{ provider }}"
+        heartbeat_interval: "{{ global_settings_general.heartbeat_interval | default(omit) }}"
+      delegate_to: localhost

@@ -1,5 +1,5 @@
 ---
-- name: Converge
+- name: Cleanup
   hosts: all
   connection: local
   gather_facts: false
