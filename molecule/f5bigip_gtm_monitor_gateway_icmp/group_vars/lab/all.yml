@@ -1,0 +1,5 @@
+---
+monitor:
+  name: my_gateway_icmp_monitor
+  partition: Common
+  description: My gateway icmp monitor

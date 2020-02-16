@@ -28,6 +28,7 @@ from deepdiff import DeepDiff
 from requests.exceptions import HTTPError
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
+from ansible.module_utils.erjac77.network.f5.common import AnsibleF5Error
 from ansible.module_utils.erjac77.network.f5.utils import (
     camel_to_snake,
     change_dict_naming_convention,
@@ -38,10 +39,6 @@ from ansible.module_utils.erjac77.network.f5.utils import (
 
 # Disable Insecure Request Warning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-
-
-class AnsibleF5Error(Exception):
-    pass
 
 
 class F5BaseClient(with_metaclass(ABCMeta)):

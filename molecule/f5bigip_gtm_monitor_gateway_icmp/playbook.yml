@@ -1,0 +1,17 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - erjac77.f5
+
+  tasks:
+    - name: Create GTM Gateway ICMP Monitor
+      f5bigip_gtm_monitor_gateway_icmp:
+        provider: "{{ provider }}"
+        name: "{{ monitor.name }}"
+        partition: "{{ monitor.partition | default(omit) }}"
+        description: "{{ monitor.description | default(omit) }}"
+        state: present
+      delegate_to: localhost

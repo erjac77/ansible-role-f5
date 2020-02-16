@@ -1,0 +1,5 @@
+---
+monitor:
+  name: my_https_monitor
+  partition: Common
+  description: My https monitor

@@ -46,3 +46,7 @@ F5_NAMED_OBJ_ARGS = dict(
     state=dict(type="str", choices=F5_STATE_CHOICES, default="present"),
     sub_path=dict(type="str"),
 )
+
+
+class AnsibleF5Error(Exception):
+    pass

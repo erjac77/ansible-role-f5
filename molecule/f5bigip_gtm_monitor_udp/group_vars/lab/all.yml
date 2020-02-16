@@ -1,0 +1,5 @@
+---
+monitor:
+  name: my_udp_monitor
+  partition: Common
+  description: My udp monitor

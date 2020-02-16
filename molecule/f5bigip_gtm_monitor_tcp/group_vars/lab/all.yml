@@ -1,0 +1,5 @@
+---
+monitor:
+  name: my_tcp_monitor
+  partition: Common
+  description: My tcp monitor
